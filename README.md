@@ -1,1 +1,6 @@
-# eye-order-helper
+# 眼科下單小幫手
+
+團隊內部用的下單頁面（已加密）。選客戶 → 物流 → 通路 → 品項與搭贈，一鍵開 Outlook 新信。
+
+- `index.html`：StaticRypt 加密後的頁面，需密碼或含密碼的分享連結才能解開。
+- `.staticrypt.json`：加密用的 salt，更新頁面時沿用，分享連結才不會變。
