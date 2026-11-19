@@ -54,6 +54,15 @@ def main(src, wl_path, out):
         add(cid, r['name'], r.street)
         for _, s in ship[ship.cust == cid].drop_duplicates('pnum').iterrows():
             add(s.pnum, s.pname, s.pstreet)
+    import os
+    ov_path = os.path.join(os.path.dirname(os.path.abspath(__file__)), 'overrides.json')
+    if os.path.exists(ov_path):
+        ov = json.load(open(ov_path, encoding='utf-8'))
+        for num in ov.get('exclude', {}): rows.pop(num, None)
+        for num, fix in ov.get('patch', {}).items():
+            if num in rows:
+                if 'area' in fix: rows[num][1] = fix['area']
+                if 'street' in fix: rows[num][2] = fix['street']
     data = sorted(rows.values(), key=lambda x: x[3])
     json.dump(data, open(out, 'w', encoding='utf-8'), ensure_ascii=False, separators=(',', ':'))
     print(f'{len(data)} 筆客戶')
